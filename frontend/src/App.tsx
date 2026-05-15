@@ -20,11 +20,11 @@ const [loadingTransactions, setLoadingTransaction] = useState(true);
 const [loadingBudgets, setLoadingBudgets] = useState(true);
 const [loadingOverview, setLoadingOverview] = useState(true);
 const [addedUser, setAddedUser] = useState(false);
-  
+const API_URL = import.meta.env.VITE_API_URL
 async function handleAddUser (newUser: object) {
   
   try {
-   const response = await fetch(`http://localhost:5000/api/auth/signup`, {
+   const response = await fetch(`${API_URL}/api/auth/signup`, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     credentials: "include",
@@ -48,7 +48,7 @@ async function handleAddUser (newUser: object) {
 async function loginUser (existingUser: object) {
   
   try {
-    const response = await fetch(`http://localhost:5000/api/auth/login`, {
+    const response = await fetch(`${API_URL}/api/auth/login`, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     credentials: "include",
@@ -70,7 +70,7 @@ async function checkAuth () {
   
   try {
     const token = localStorage.getItem("token");
-  const response = await fetch(`http://localhost:5000/api/auth/check`, {
+  const response = await fetch(`${API_URL}/api/auth/check`, {
     credentials: "include",
     headers: {"Authorization": `Bearer ${token}`}
   })
@@ -95,7 +95,7 @@ async function getTransactions () {
   
   try {
     const token = localStorage.getItem("token");
-  const response = await fetch(`http://localhost:5000/api/transactions/get`, {
+  const response = await fetch(`${API_URL}/api/transactions/get`, {
     headers: {"Authorization" : `Bearer ${token}`}
   })
   const data = await response.json();
@@ -116,7 +116,7 @@ async function addTransaction (newTransaction: object) {
   
   try {
     const token = localStorage.getItem("token")
-  const response = await fetch(`http://localhost:5000/api/transactions/add`, {
+  const response = await fetch(`${API_URL}/api/transactions/add`, {
     method: "POST",
     credentials: "include",
     headers: {"Content-Type": "application/json", "Authorization": `Bearer ${token}`},
@@ -136,7 +136,7 @@ async function deleteTransaction (id) {
   
   try {
    const token = localStorage.getItem("token")
-  const response = await fetch(`http://localhost:5000/api/transactions/delete/${id}`, {
+  const response = await fetch(`${API_URL}/api/transactions/delete/${id}`, {
     method: "DELETE",
     headers: {"Authorization": `Bearer ${token}`},
     credentials: "include"
@@ -154,7 +154,7 @@ async function deleteTransaction (id) {
 async function updateTransaction (editedTransaction: object, id: number) {
   try {
     const token = localStorage.getItem("token")
-  const response = await fetch(`http://localhost:5000/api/transactions/update/${id}`, {
+  const response = await fetch(`${API_URL}/api/transactions/update/${id}`, {
     method: "PUT",
     headers: {"Content-Type": "application/json", "Authorization": `Bearer ${token}`},
     credentials: "include",
@@ -180,7 +180,7 @@ async function addBudget (newBudget: object) {
   
   try {
     const token = localStorage.getItem("token")
-  const response = await fetch(`http://localhost:5000/api/budgets/add`, {
+  const response = await fetch(`${API_URL}/api/budgets/add`, {
     method: "POST",
     headers: {"Content-Type": "application/json", "Authorization": `Bearer ${token}`},
     credentials: "include",
@@ -200,7 +200,7 @@ async function getBudgets () {
   
   try {
    const token = localStorage.getItem("token")
-  const response = await fetch(`http://localhost:5000/api/budgets/get`, {
+  const response = await fetch(`${API_URL}/api/budgets/get`, {
     headers: {"Authorization": `Bearer ${token}`},
     credentials: "include"
   })
@@ -220,7 +220,7 @@ async function deleteBudget (id: number) {
   
   try {
    const token = localStorage.getItem("token")
-  const response = await fetch(`http://localhost:5000/api/budgets/delete/${id}`, {
+  const response = await fetch(`${API_URL}/api/budgets/delete/${id}`, {
     method: "DELETE",
     headers: {"Authorization": `Bearer ${token}`},
     credentials: "include"
@@ -239,7 +239,7 @@ async function updateBudget (editedBudget: object, id: number) {
   
   try {
     const token = localStorage.getItem("token");
-  const response = await fetch(`http://localhost:5000/api/budgets/update/${id}`, {
+  const response = await fetch(`${API_URL}/api/budgets/update/${id}`, {
     method: "PUT",
     headers: {"Content-Type": "application/json", "Authorization": `Bearer ${token}`},
     credentials: "include",
@@ -267,7 +267,7 @@ async function getTotalExpensesAndIncome () {
   
   try {
     const token = localStorage.getItem("token")
-  const response = await fetch(`http://localhost:5000/api/info/total-expenses-and-income`, {
+  const response = await fetch(`${API_URL}/api/info/total-expenses-and-income`, {
     headers: {"Authorization": `Bearer ${token}`},
     credentials: "include"
   })
@@ -291,7 +291,7 @@ async function getExpAndIncCategorized () {
   
   try {
     const token = localStorage.getItem("token")
-  const response = await fetch(`http://localhost:5000/api/info/expenses-and-income-by-category`, {
+  const response = await fetch(`${API_URL}/api/info/expenses-and-income-by-category`, {
     headers: {"Authorization": `Bearer ${token}`},
     credentials: "include"
   })
@@ -313,7 +313,7 @@ const [expensesAndIncomeThisMonth, setExpensesAndIncomeThisMonth] = useState({})
 async function getExpensesAndIncomeThisMonth() {
   try {
     const token = localStorage.getItem("token")
-  const response = await fetch(`http://localhost:5000/api/info/expenses-and-income-within-last-month`, {
+  const response = await fetch(`${API_URL}/api/info/expenses-and-income-within-last-month`, {
     headers: {"Authorization": `Bearer ${token}`},
     credentials: "include"
   })
@@ -332,7 +332,7 @@ const [expensesAndIncomeLastMonth, setExpensesAndIncomeLastMonth] = useState({})
 async function getExpensesAndIncomeLastMonth () {
   try {
      const token = localStorage.getItem("token")
-  const response = await fetch(`http://localhost:5000/api/info/expenses-and-income-from-previous-month`, {
+  const response = await fetch(`${API_URL}/api/info/expenses-and-income-from-previous-month`, {
     headers: {"Authorization": `Bearer ${token}`},
     credentials: "include"
   })
@@ -352,7 +352,7 @@ async function getExpenseTotalThisWeek () {
   
   try {
     const token = localStorage.getItem("token")
-  const response = await fetch(`http://localhost:5000/api/info/expenses-this-week`, {
+  const response = await fetch(`${API_URL}/api/info/expenses-this-week`, {
     headers: {"Authorization": `Bearer ${token}`},
     credentials: "include"
   })
@@ -372,7 +372,7 @@ async function getExpenseTotalPrevWeek () {
   
   try {
     const token = localStorage.getItem("token")
-  const response = await fetch(`http://localhost:5000/api/info/expenses/prev/week`, {
+  const response = await fetch(`${API_URL}/api/info/expenses/prev/week`, {
     headers: {"Authorization": `Bearer ${token}`},
     credentials: "include"
   });
@@ -392,7 +392,7 @@ async function getExpenseAmountPerDayLast7 () {
   
   try {
     const token = localStorage.getItem("token")
-  const response = await fetch(`http://localhost:5000/api/info/expense-amt-per-day`, {
+  const response = await fetch(`${API_URL}/api/info/expense-amt-per-day`, {
     headers: {"Authorization": `Bearer ${token}`},
     credentials: "include"
   })
@@ -411,7 +411,7 @@ async function getGreatestExpenseThisWeek() {
   
   try {
     const token = localStorage.getItem("token")
-  const response = await fetch(`http://localhost:5000/api/info/greatest-expense-this-week`, {
+  const response = await fetch(`${API_URL}/api/info/greatest-expense-this-week`, {
     headers: {"Authorization": `Bearer ${token}`},
     credentials: "include"
   })
@@ -429,7 +429,7 @@ const [budgetComparisonInfo, setBudgetComparisonInfo] = useState([]);
 async function getBudgetComparisonInfo () {
   try {
     const token = localStorage.getItem("token")
-  const response = await fetch(`http://localhost:5000/api/info/budget-expense-comparison`, {
+  const response = await fetch(`${API_URL}/api/info/budget-expense-comparison`, {
     headers: {"Authorization": `Bearer ${token}`},
     credentials: "include"
   })
