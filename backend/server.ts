@@ -418,7 +418,9 @@ app.get("/api/info/greatest-expense-this-week", verifyToken, async (req: Request
     }
 })
 
-app.listen(5000, () => {
+const PORT = process.env.PORT || 3000;
+
+app.listen(Number(PORT), "0.0.0.0", () => {
     try {
         console.log("Started server successfully")
     } catch (error) {
