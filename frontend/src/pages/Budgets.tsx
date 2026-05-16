@@ -165,7 +165,7 @@ export function Budgets ({loadingBudgets, budgets, getBudgets, addBudget, delete
 
             { budgets.length < 1 && (
                 <>
-                <div className="flex items-center justify-center p-6">
+                <div className="flex flex-col items-center justify-center p-6">
                 <p className="text-xl text-center mt-12 font-medium">Add a budget above to get started.</p>
                 <p className="text-lg text-center mt-3">For information about your budgets, check the dashboard after adding some.</p>
                 <p className="text-center mt-3">Get information about current spending, your limit, and the percent of the budget you have spent.</p>
