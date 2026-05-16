@@ -7,20 +7,21 @@ import PublicRoute from './components/PublicRoute';
 import ProtectedRoute from './components/ProtectedRoute';
 import Transactions from './pages/Transactions';
 import { Budgets } from './pages/Budgets';
-
-
+import { Transaction } from './types/Transaction';
+import { Budget } from './types/Budget';
 
 function App() {
 
 const [activeUser, setActiveUser] = useState(null);
-const [transactions, setTransactions] = useState([]);
-const [budgets, setBudgets] = useState([]);
+const [transactions, setTransactions] = useState<Transaction[]>([]);
+const [budgets, setBudgets] = useState<Budget[]>([]);
 const [loadingUser, setLoadingUser] = useState(false);
 const [loadingTransactions, setLoadingTransaction] = useState(true);
 const [loadingBudgets, setLoadingBudgets] = useState(true);
 const [loadingOverview, setLoadingOverview] = useState(true);
 const [addedUser, setAddedUser] = useState(false);
 const API_URL = import.meta.env.VITE_API_URL
+
 async function handleAddUser (newUser: object) {
   
   try {
@@ -132,7 +133,7 @@ async function addTransaction (newTransaction: object) {
   
 }
 
-async function deleteTransaction (id) {
+async function deleteTransaction (id: number) {
   
   try {
    const token = localStorage.getItem("token")
