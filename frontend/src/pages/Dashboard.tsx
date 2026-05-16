@@ -21,9 +21,9 @@ export default function Dashboard ({loadingCategorized, getTotalExpensesAndIncom
     getBudgetComparisonInfo();
     },[])
    
-    const savingsRateThisMonth = expensesAndIncomeThisMonth.Expense && expensesAndIncomeThisMonth.Income ? (((expensesAndIncomeThisMonth.Income - expensesAndIncomeThisMonth.Expense) / expensesAndIncomeThisMonth.Income) * 100).toFixed(2) : 0;
-    const savingsRateLastMonth = expensesAndIncomeLastMonth.Expense && expensesAndIncomeLastMonth.Income ? (((expensesAndIncomeLastMonth.Income - expensesAndIncomeLastMonth.Expense) / expensesAndIncomeLastMonth.Income) * 100).toFixed(2) : 0;
-     
+    const savingsRateThisMonth = expensesAndIncomeThisMonth.Income ? (((expensesAndIncomeThisMonth.Income - (expensesAndIncomeThisMonth.Expense || 0)) / expensesAndIncomeThisMonth.Income) * 100).toFixed(2) : null;
+    const savingsRateLastMonth = expensesAndIncomeLastMonth.Income ? (((expensesAndIncomeLastMonth.Income - (expensesAndIncomeLastMonth.Expense || 0)) / expensesAndIncomeLastMonth.Income) * 100).toFixed(2) : null;
+     console.log(savingsRateThisMonth)
     
     return (
         <>
@@ -68,12 +68,12 @@ export default function Dashboard ({loadingCategorized, getTotalExpensesAndIncom
                 <div className={`mx-auto w-full h-full text-center bg-linear-to-br from-slate-200 to-slate-100 px-4 py-6 rounded-xl flex flex-col gap-3 justify-center items-center`}>
                     <p className="text-sm text-slate-900 font-medium">Savings rate</p>
 
-                    { !Number.isNaN(Number(savingsRateThisMonth)) ? (   
+                    { savingsRateThisMonth && !Number.isNaN(Number(savingsRateThisMonth)) ? (   
                     <>
                     <p className={`text-2xl ${Number(savingsRateThisMonth) >= 0 ? 'text-emerald-700' : 'text-rose-800'}`}>{Math.abs(Number(savingsRateThisMonth))}%</p>
                     <p className="text-xs text-slate-900">{Number(savingsRateThisMonth) < 0 ? "more than your income has been spent" : "of your income has been saved"}</p>
 
-                  { savingsRateLastMonth !== 0 && (
+                  { savingsRateLastMonth && !Number.isNaN(Number(savingsRateLastMonth)) && (
                     <p className="text-xs text-slate-900">{Number(savingsRateLastMonth) < 0 ? `Last month: ${Math.abs(Number(savingsRateLastMonth))}% more than income was spent` : `Last month: ${Math.abs(Number(savingsRateLastMonth))}% of your income was saved`}</p>
                   )
                 }
@@ -87,24 +87,28 @@ export default function Dashboard ({loadingCategorized, getTotalExpensesAndIncom
                 <div className="mx-auto text-center w-full h-full bg-white border-slate-200 border justify-center flex flex-col gap-4 px-4 py-6 rounded-xl">
                     <p className="font-medium text-sm">Simple overview</p>
                     
-                    { !Number.isNaN(expensesAndIncomeLastMonth.Income) && expensesAndIncomeLastMonth.Income !== 0 && expensesAndIncomeLastMonth.Income ? (
+                    { expensesAndIncomeThisMonth && expensesAndIncomeThisMonth.Income || expensesAndIncomeThisMonth.Expense && !Number.isNaN(expensesAndIncomeThisMonth.Income) && !Number.isNaN(expensesAndIncomeThisMonth.Expense)? (
                      <>   
                     <div className="flex gap-2 justify-between">
                         <div className="flex flex-col gap-1">
                         <p className="text-sm text-emerald-700">Income:</p>
-                        <p className="text-xl">${expensesAndIncomeThisMonth.Income}</p>
+                        <p className="text-xl">${expensesAndIncomeThisMonth.Income || 0}</p>
                         </div>
 
                         <div className="flex flex-col gap-1">
                         <p className="text-sm text-rose-800">Expenses:</p>
-                        <p className="text-xl">${expensesAndIncomeThisMonth.Expense}</p>
+                        <p className="text-xl">${expensesAndIncomeThisMonth.Expense || 0}</p>
                         </div>
                     </div>
 
                     <div className="w-full h-6.25 bg-black rounded-xl">
                         <div style={{width: `${(expensesAndIncomeThisMonth.Expense / expensesAndIncomeThisMonth.Income) * 100 > 100 ? 100 : (expensesAndIncomeThisMonth.Expense / expensesAndIncomeThisMonth.Income) * 100}%`}} className="h-6.25 rounded-xl bg-rose-800"></div>
                     </div>
+                    
+                    { expensesAndIncomeThisMonth.Expense && expensesAndIncomeThisMonth.Income && (
                     <p className="text-rose-800">{((expensesAndIncomeThisMonth.Expense / expensesAndIncomeThisMonth.Income) * 100).toFixed(2)}%</p>
+                    )
+                }
                     </>
                     ) : (
                         <p className="text-xs text-slate-900">No data yet</p>
@@ -116,12 +120,12 @@ export default function Dashboard ({loadingCategorized, getTotalExpensesAndIncom
                 <div className={`mx-auto px-4 py-6 rounded-xl text-center w-full h-full flex flex-col gap-3 items-center justify-center ${expensesAndIncomeThisMonth.Income - expensesAndIncomeThisMonth.Expense < 0 ? "bg-linear-to-br from-rose-100 to-white" : expensesAndIncomeThisMonth.Income - expensesAndIncomeThisMonth.Expense === 0 ? "bg-slate-100 border border-slate-300" : "bg-linear-to-br from-emerald-50 to-white"}`}>
                     <p className="text-sm font-medium" >Net monthly result</p>
                     
-                    { expensesAndIncomeThisMonth.Income && expensesAndIncomeThisMonth.Income !== 0 ? (
+                    { expensesAndIncomeThisMonth.Income || expensesAndIncomeThisMonth.Expense && expensesAndIncomeThisMonth.Income || expensesAndIncomeThisMonth.Expense !== 0 && expensesAndIncomeThisMonth.Income !== undefined || expensesAndIncomeThisMonth.Expense !== undefined ? (
                     <>
-                    <p className="text-2xl">${expensesAndIncomeThisMonth.Income - expensesAndIncomeThisMonth.Expense}</p>
+                    <p className="text-2xl">${(expensesAndIncomeThisMonth.Income || 0) - (expensesAndIncomeThisMonth.Expense || 0)}</p>
                     <div className="flex gap-2 items-center text-sm">
-                    <p>{expensesAndIncomeThisMonth.Income - expensesAndIncomeThisMonth.Expense < 0 ? "You're losing money" : "You're saving money"}</p>
-                    <i className={`${expensesAndIncomeThisMonth.Income - expensesAndIncomeThisMonth.Expense < 0 ? 'fa-solid fa-triangle-exclamation text-rose-800' : 'fa-solid fa-thumbs-up text-emerald-700'}`}></i>
+                    <p>{(expensesAndIncomeThisMonth.Income || 0) - (expensesAndIncomeThisMonth.Expense || 0) < 0 ? "You're losing money" : "You're saving money"}</p>
+                    <i className={`${(expensesAndIncomeThisMonth.Income || 0) - (expensesAndIncomeThisMonth.Expense || 0) < 0 ? 'fa-solid fa-triangle-exclamation text-rose-800' : 'fa-solid fa-thumbs-up text-emerald-700'}`}></i>
                     </div>
                     </>
                     ) : (
