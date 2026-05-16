@@ -35,13 +35,6 @@ export function Budgets ({loadingBudgets, budgets, getBudgets, addBudget, delete
         setAddingBudget(false);
     }
 
-    useEffect(() => {
-         if (addingBudget) {
-        document.body.style.overflow = "hidden";
-    } else {
-        document.body.style.overflow = "auto";
-    }
-    }, [addingBudget])
 
     
 

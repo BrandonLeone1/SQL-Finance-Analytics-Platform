@@ -42,15 +42,6 @@ export default function Transactions ({loadingTransactions, transactions, getTra
 
         setAddingTransaction(false);
     }
-
-    useEffect(() => {
-        if (addingTransaction) {
-        document.body.style.overflow = "hidden";
-    } else {
-        document.body.style.overflow = "auto";
-    }
-    }, [addingTransaction])
-
     
     
     if (loadingTransactions) {

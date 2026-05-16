@@ -34,14 +34,6 @@ export function BudgetCard ({budget, deleteBudget, updateBudget}: BudgetCardProp
         
         
     }
-
-    useEffect(() => {
-        if (deletingBudget) {
-        document.body.style.overflow = "hidden";
-    } else {
-        document.body.style.overflow = "auto";
-    }
-    }, [deletingBudget])
     
     
     return (

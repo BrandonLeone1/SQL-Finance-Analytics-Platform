@@ -17,7 +17,7 @@ export function TransactionCard ({transaction, deleteTransaction, updateTransact
             console.error(error);
             setDeletingTransaction(false);    
         }
-        
+        return () => {document.body.style.overflow = "auto"};
      }
 
      async function handleUpdateTransaction(id: number) {
@@ -34,14 +34,7 @@ export function TransactionCard ({transaction, deleteTransaction, updateTransact
         
      }
 
-     useEffect(() => {
-        if (deletingTransaction) {
-        document.body.style.overflow = "hidden"
-     } else {
-        document.body.style.overflow = "auto"
-     }
-     }, [deletingTransaction])
-
+  
      
 
      const [viewingNote, setViewingNote] = useState(false);
