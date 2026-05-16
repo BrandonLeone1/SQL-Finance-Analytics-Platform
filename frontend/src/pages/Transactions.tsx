@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { TransactionCard } from "../components/TransactionCard";
-
+import type { Transaction } from "../types/Transaction";
 
 export default function Transactions ({loadingTransactions, transactions, getTransactions, addTransaction, deleteTransaction, updateTransaction}) {
    
@@ -89,7 +89,7 @@ export default function Transactions ({loadingTransactions, transactions, getTra
 
             { addingTransaction && (
                 <div className="fixed inset-0 bg-black/80 flex z-80 items-center justify-center h-screen backdrop-blur-sm p-6">
-                    <div className="bg-white p-4 rounded-lg flex flex-col gap-4">
+                    <div className="bg-white p-4 rounded-lg flex flex-col gap-4 max-h-[80vh] overflow-y-auto">
                         <p className="text-xl font-medium text-emerald-700">Add new transaction</p>
                         
                         <div className="flex flex-col gap-4 mt-2">
@@ -155,7 +155,7 @@ export default function Transactions ({loadingTransactions, transactions, getTra
                             ...prev,
                             date_of_transaction: e.target.value
                            }))}
-                           className="border-slate-300 cursor-pointer border w-full px-3 py-2 rounded-xl mt-2"
+                           className="border-slate-300 cursor-pointer border w-[95%] mx-auto px-3 py-2 rounded-xl mt-2"
                            />
                            </label>
                            
@@ -186,7 +186,7 @@ export default function Transactions ({loadingTransactions, transactions, getTra
             }
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto p-6 mt-12">
-            { transactions.map((transaction => (
+            { transactions.map(((transaction: Transaction) => (
                 <TransactionCard key={transaction.id} transaction={transaction} deleteTransaction={deleteTransaction} updateTransaction={updateTransaction}/>
             )))
 

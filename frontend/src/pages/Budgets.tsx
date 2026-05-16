@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import Navbar from "../components/Navbar"
 import { BudgetCard } from "../components/BudgetCard";
+import type { Budget } from "../types/Budget";
 
 export function Budgets ({loadingBudgets, budgets, getBudgets, addBudget, deleteBudget, updateBudget}) {
     
@@ -8,7 +9,7 @@ export function Budgets ({loadingBudgets, budgets, getBudgets, addBudget, delete
         getBudgets();
     },[])
     
-    const existingBudgets = budgets.map(budget => {
+    const existingBudgets = budgets.map((budget: Budget) => {
         return budget.category
     })
 
@@ -164,16 +165,18 @@ export function Budgets ({loadingBudgets, budgets, getBudgets, addBudget, delete
 
             { budgets.length < 1 && (
                 <>
+                <div className="flex items-center justify-center p-6">
                 <p className="text-xl text-center mt-12 font-medium">Add a budget above to get started.</p>
                 <p className="text-lg text-center mt-3">For information about your budgets, check the dashboard after adding some.</p>
                 <p className="text-center mt-3">Get information about current spending, your limit, and the percent of the budget you have spent.</p>
+                </div>
                 </>
             )
 
             }
         
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto p-6 mt-12">
-            { budgets.map((budget => (
+            { budgets.map(((budget: Budget) => (
                 <BudgetCard budget={budget} key={budget.id} deleteBudget={deleteBudget} updateBudget={updateBudget}/> 
             )))
 
