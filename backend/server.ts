@@ -8,7 +8,7 @@ import checkAuth from './checkAuth.js';
 import { Request, Response } from 'express';
 const app = express();
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://sql-finance-analytics-platform.vercel.app/"],
     credentials: true
 }))
 app.use(express.json());
