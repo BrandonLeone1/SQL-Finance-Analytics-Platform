@@ -21,8 +21,8 @@ export default function Dashboard ({loadingCategorized, getTotalExpensesAndIncom
     getBudgetComparisonInfo();
     },[])
    
-    const savingsRateThisMonth = (((expensesAndIncomeThisMonth.Income - expensesAndIncomeThisMonth.Expense) / expensesAndIncomeThisMonth.Income) * 100).toFixed(2);
-    const savingsRateLastMonth = (((expensesAndIncomeLastMonth.Income - expensesAndIncomeLastMonth.Expense) / expensesAndIncomeLastMonth.Income) * 100).toFixed(2);
+    const savingsRateThisMonth = expensesAndIncomeThisMonth.Expense && expensesAndIncomeThisMonth.Income ? (((expensesAndIncomeThisMonth.Income - expensesAndIncomeThisMonth.Expense) / expensesAndIncomeThisMonth.Income) * 100).toFixed(2) : 0;
+    const savingsRateLastMonth = expensesAndIncomeLastMonth.Expense && expensesAndIncomeLastMonth.Income ? (((expensesAndIncomeLastMonth.Income - expensesAndIncomeLastMonth.Expense) / expensesAndIncomeLastMonth.Income) * 100).toFixed(2) : 0;
      
     
     return (
@@ -38,7 +38,7 @@ export default function Dashboard ({loadingCategorized, getTotalExpensesAndIncom
 
             <AllTimeCard totalExpensesAndIncome={totalExpensesAndIncome} title={`Total income:`} value={totalExpensesAndIncome ? totalExpensesAndIncome.Income : ""} loadingOverview={loadingOverview}/>
             <AllTimeCard totalExpensesAndIncome={totalExpensesAndIncome} title={`Total expenses:`} value={totalExpensesAndIncome ? totalExpensesAndIncome.Expense : ""} loadingOverview={loadingOverview}/>
-            <AllTimeCard totalExpensesAndIncome={totalExpensesAndIncome} title={`Net balance:`} value={totalExpensesAndIncome ? (totalExpensesAndIncome.Income - totalExpensesAndIncome.Expense) : ""} loadingOverview={loadingOverview}/>
+            <AllTimeCard totalExpensesAndIncome={totalExpensesAndIncome} title={`Net balance:`} value={totalExpensesAndIncome ? (totalExpensesAndIncome.Income - totalExpensesAndIncome.Expense || totalExpensesAndIncome.Income || totalExpensesAndIncome.Expense) : ""} loadingOverview={loadingOverview}/>
 
         </div>
 
@@ -73,7 +73,10 @@ export default function Dashboard ({loadingCategorized, getTotalExpensesAndIncom
                     <p className={`text-2xl ${Number(savingsRateThisMonth) >= 0 ? 'text-emerald-700' : 'text-rose-800'}`}>{Math.abs(Number(savingsRateThisMonth))}%</p>
                     <p className="text-xs text-slate-900">{Number(savingsRateThisMonth) < 0 ? "more than your income has been spent" : "of your income has been saved"}</p>
 
+                  { savingsRateLastMonth !== 0 && (
                     <p className="text-xs text-slate-900">{Number(savingsRateLastMonth) < 0 ? `Last month: ${Math.abs(Number(savingsRateLastMonth))}% more than income was spent` : `Last month: ${Math.abs(Number(savingsRateLastMonth))}% of your income was saved`}</p>
+                  )
+                }
                     </>
                     ) : (
                         <p className="text-xs text-slate-900">No data yet</p>

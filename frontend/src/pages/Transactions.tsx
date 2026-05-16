@@ -80,7 +80,7 @@ export default function Transactions ({loadingTransactions, transactions, getTra
 
             { addingTransaction && (
                 <div className="fixed inset-0 bg-black/80 flex z-80 items-center justify-center h-screen backdrop-blur-sm p-6">
-                    <div className="bg-white p-4 rounded-lg flex flex-col gap-4 max-h-[80vh] overflow-y-auto">
+                    <div className="bg-white p-4 rounded-lg flex flex-col gap-4 max-h-[90vh] overflow-auto">
                         <p className="text-xl font-medium text-emerald-700">Add new transaction</p>
                         
                         <div className="flex flex-col gap-4 mt-2">
