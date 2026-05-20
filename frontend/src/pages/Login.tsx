@@ -1,5 +1,5 @@
 import { useState } from "react"
-
+import { Link } from "react-router-dom";
 export default function Login ({loginUser}) {
     
     const [existingUser, setExistingUser] = useState({
@@ -49,6 +49,12 @@ export default function Login ({loginUser}) {
                     />
                     </label>
                     <button className=" border-2 w-fit px-5 py-2 mx-auto cursor-pointer rounded-lg border-slate-500 hover:bg-indigo-50 hover:border-slate-400 duration-150" onClick={handleLogin}>Login</button>
+                <div className="text-sm flex gap-2 items-center">
+            
+                <p className="mt-0.5">Don't have an account?</p>
+                <Link to={`/`} className="underline hover:opacity-75 font-medium text-indigo-400 duration-150">Signup here</Link>
+                </div>
+                
                 </div>
             </div>
         </>

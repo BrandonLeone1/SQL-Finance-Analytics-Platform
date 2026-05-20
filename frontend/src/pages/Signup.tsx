@@ -80,6 +80,8 @@ export default function Signup ({addUser, addedUser}) {
             <Link to={`/login`} className="underline hover:opacity-75 font-medium text-indigo-400 duration-150">Login here</Link>
             </div>
             
+            <Link to={`/info`} className="text-xs text-slate-500 underline opacity-75 hover:opacity-50 duration-150 w-fit">More info</Link>
+
             </div>
             
         </div>

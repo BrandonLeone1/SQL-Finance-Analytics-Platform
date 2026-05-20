@@ -9,6 +9,7 @@ import Transactions from './pages/Transactions';
 import { Budgets } from './pages/Budgets';
 import { Transaction } from './types/Transaction';
 import { Budget } from './types/Budget';
+import Info from './pages/Info';
 
 function App() {
 
@@ -485,6 +486,12 @@ useEffect(() => {
         }
         
         />
+
+        <Route path='/info' element={
+          <PublicRoute activeUser={activeUser} loadingUser={loadingUser}>
+            <Info />
+          </PublicRoute>
+        }/>
       </Routes>
     </>
   )
