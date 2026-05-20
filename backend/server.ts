@@ -6,12 +6,31 @@ import generateAndSendToken from './generateAndSendToken.js';
 import verifyToken from './verifyToken.js';
 import checkAuth from './checkAuth.js';
 import { Request, Response } from 'express';
+import {rateLimit} from 'express-rate-limit'
 const app = express();
 app.use(cors({
     origin: ["http://localhost:5173", "https://sql-finance-analytics-platform.vercel.app"],
     credentials: true
 }))
 app.use(express.json());
+
+const limiter = rateLimit({
+    windowMs: 10 * 60 * 1000,
+    max: 400,
+    message: "Too many requests being sent",
+    standardHeaders: 'draft-8',
+    legacyHeaders: false
+})
+
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5,
+    message: "Too many requests being sent",
+    standardHeaders: 'draft-8',
+    legacyHeaders: false
+})
+
+app.use(limiter);
 
 declare global {
   namespace Express {
@@ -45,7 +64,7 @@ type Budget = {
     budget_limit: number
 }
 
-app.post("/api/auth/signup", async (req: Request, res: Response) => {
+app.post("/api/auth/signup", authLimiter, async (req: Request, res: Response) => {
     const {name, email, password}:User = req.body;
 
     try {
@@ -78,7 +97,7 @@ app.post("/api/auth/signup", async (req: Request, res: Response) => {
     }
 });
 
-app.post("/api/auth/login", async (req: Request, res: Response) => {
+app.post("/api/auth/login", authLimiter, async (req: Request, res: Response) => {
     const {email, password}:ExistingUser = req.body;
 
     try {
